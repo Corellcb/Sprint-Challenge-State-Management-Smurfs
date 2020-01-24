@@ -48,7 +48,7 @@ const SmurfForm = props => {
 
     return (
         <div>
-            {!(props.smurfs.length > 0) && !props.isLoading && (<button onClick={props.fetchSmurfs} >Get more smurfs</button>)}
+            {!(props.smurfs.length > 0) && !props.isLoading && (<button onClick={props.fetchSmurfs} >Get Smurfs</button>)}
             {props.isLoading && (
                 <Loader
                     type="Puff"
