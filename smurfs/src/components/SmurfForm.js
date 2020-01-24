@@ -35,6 +35,7 @@ const SmurfForm = props => {
             .post('http://localhost:3333/smurfs', input)
             .then(res => {
                 console.log(res);
+                props.fetchSmurfs()
                 setInput({
                     name: '',
                     age: '',
@@ -59,21 +60,18 @@ const SmurfForm = props => {
                 />
             )}
             {(props.smurfs.length > 0) && (
-                <StyledForm onSubmit={onSubmit} >
+            <StyledForm onSubmit={onSubmit} >
                 <h2>Missing a Smurf?</h2>
                 <p>Add one!</p>
                 <div>
                     <div>
-                        <label>Name:</label>
                         <input name='name' placeholder='Enter Name' value={input.name} onChange={onChange} type='text' required />
                     </div>
                     <div>
-                        <label>Age:</label>
                         <input name='age' placeholder='Enter Age' value={input.age} onChange={onChange} type='number' required />
                     </div>
                     <div>
-                        <label>Height(in cm):</label>
-                        <input name='height' placeholder='Enter Height' value={input.height} onChange={onChange} type='text' required />
+                            <input name='height' placeholder='Enter Height' value={input.height} onChange={onChange} type='text' required />
                     </div>
                     <input type='submit' />
                 </div>
