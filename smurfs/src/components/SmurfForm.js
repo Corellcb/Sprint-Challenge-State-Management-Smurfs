@@ -3,6 +3,15 @@ import { fetchSmurfs } from '../actions';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner';
 import Axios from 'axios';
+import styled from 'styled-components';
+
+const StyledForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    width: 50%;
+`
 
 const SmurfForm = props => {
     const [input, setInput] = useState({
@@ -21,11 +30,16 @@ const SmurfForm = props => {
 
     const onSubmit = event => {
         event.preventDefault();
+        console.log(event);
         Axios
             .post('http://localhost:3333/smurfs', input)
             .then(res => {
                 console.log(res);
-                
+                setInput({
+                    name: '',
+                    age: '',
+                    height: ''
+                })
             })
             .catch(err => {
                 console.log(err);
@@ -44,22 +58,26 @@ const SmurfForm = props => {
                     timeout={3000} //3 secs
                 />
             )}
-            {(props.smurfs.length > 0) && (<form onSubmit={onSubmit} >
+            {(props.smurfs.length > 0) && (
+                <StyledForm onSubmit={onSubmit} >
                 <h2>Missing a Smurf?</h2>
+                <p>Add one!</p>
                 <div>
-                    <label>Name:</label>
-                    <input name='name' placeholder='Enter Name' value={input.name} onChange={onChange} type='text' />
+                    <div>
+                        <label>Name:</label>
+                        <input name='name' placeholder='Enter Name' value={input.name} onChange={onChange} type='text' required />
+                    </div>
+                    <div>
+                        <label>Age:</label>
+                        <input name='age' placeholder='Enter Age' value={input.age} onChange={onChange} type='number' required />
+                    </div>
+                    <div>
+                        <label>Height(in cm):</label>
+                        <input name='height' placeholder='Enter Height' value={input.height} onChange={onChange} type='text' required />
+                    </div>
+                    <input type='submit' />
                 </div>
-                <div>
-                    <label>Age:</label>
-                    <input name='age' placeholder='Enter Age' value={input.age} onChange={onChange} type='number' />
-                </div>
-                <div>
-                    <label>Height(in cm):</label>
-                    <input name='height' placeholder='Enter Height' value={input.height} onChange={onChange} type='text' />
-                </div>
-                <input type='submit' />
-            </form>)}
+            </StyledForm>)}
         </div>
     );
 };
