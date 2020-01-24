@@ -7,7 +7,7 @@ import Axios from 'axios';
 const SmurfForm = props => {
     const [input, setInput] = useState({
         name: '',
-        age: undefined,
+        age: '',
         height: ''
     })
 
@@ -21,10 +21,6 @@ const SmurfForm = props => {
 
     const onSubmit = event => {
         event.preventDefault();
-        setInput({
-            ...input,
-            id: Date.now()
-        });
         Axios
             .post('http://localhost:3333/smurfs', input)
             .then(res => {
@@ -38,7 +34,7 @@ const SmurfForm = props => {
 
     return (
         <div>
-            {(props.meme === undefined) && !props.isLoading && (<button onClick={props.fetchSmurfs} >Get more smurfs</button>)}
+            {!(props.smurfs.length > 0) && !props.isLoading && (<button onClick={props.fetchSmurfs} >Get more smurfs</button>)}
             {props.isLoading && (
                 <Loader
                     type="Puff"
@@ -48,7 +44,7 @@ const SmurfForm = props => {
                     timeout={3000} //3 secs
                 />
             )}
-            <form onSubmit={onSubmit} >
+            {(props.smurfs.length > 0) && (<form onSubmit={onSubmit} >
                 <h2>Missing a Smurf?</h2>
                 <div>
                     <label>Name:</label>
@@ -60,10 +56,10 @@ const SmurfForm = props => {
                 </div>
                 <div>
                     <label>Height(in cm):</label>
-                    <input name='height' placeholder='Enter Height' value={input.height} onChange={onChange} type='number' />
+                    <input name='height' placeholder='Enter Height' value={input.height} onChange={onChange} type='text' />
                 </div>
                 <input type='submit' />
-            </form>
+            </form>)}
         </div>
     );
 };
